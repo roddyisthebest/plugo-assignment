@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Header from '../components/display/Header';
 import Product from '../components/card/Product';
+import ProductsWrapper from '../components/display/ProductsWrapper';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -24,6 +25,10 @@ const Button = styled.button`
   }
 `;
 
+const Contents = styled.div`
+  padding: 50px;
+`;
+
 export default function Admin() {
   return (
     <Container>
@@ -31,7 +36,19 @@ export default function Admin() {
         <Button>CREATE PRODUCT</Button>
         <Button>USER</Button>
       </Header>
-      <Product></Product>
+      <Contents>
+        <ProductsWrapper>
+          <Product></Product>
+          <Product></Product>
+          <Product></Product>
+          <Product></Product>
+          <Product></Product>
+          <Product></Product>
+          <Product></Product>
+          <Product></Product>
+          <Product></Product>
+        </ProductsWrapper>
+      </Contents>
     </Container>
   );
 }

@@ -15,7 +15,7 @@ const Container = styled.button`
 `;
 
 const ImageSection = styled.div<{ url: string }>`
-  width: 200px;
+  width: 100%;
   height: 200px;
   background-image: url(${(props) => props.url});
   background-position: center center;
