@@ -4,6 +4,8 @@ import Product from '../components/card/Product';
 import ProductsWrapper from '../components/display/ProductsWrapper';
 import { useSelector } from 'react-redux';
 import State from '../types/State';
+import CreatingProduct from '../components/modal/CreatingProduct';
+import { useEffect, useState } from 'react';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -32,12 +34,21 @@ const Contents = styled.div`
 `;
 
 export default function Admin() {
+  const [visibility, setVisibility] = useState<boolean>(false);
   const products = useSelector((state: State) => state.products);
+
+  useEffect(() => {
+    if (visibility) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [visibility]);
 
   return (
     <Container>
       <Header title="ADMIN">
-        <Button>CREATE PRODUCT</Button>
+        <Button onClick={() => setVisibility(true)}>CREATE PRODUCT</Button>
         <Button>USER</Button>
       </Header>
       <Contents>
@@ -47,6 +58,9 @@ export default function Admin() {
           ))}
         </ProductsWrapper>
       </Contents>
+      {visibility && (
+        <CreatingProduct setVisibility={setVisibility}></CreatingProduct>
+      )}
     </Container>
   );
 }

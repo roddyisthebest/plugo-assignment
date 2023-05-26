@@ -59,14 +59,9 @@ export const handlers = [
     }
   ),
 
-  rest.post<{
-    name: string;
-    price: number;
-    sale: number;
-    type: number;
-    introduction: string;
-  }>('/products', (req, res, ctx) => {
-    const { name, price, sale, type, introduction } = req.body;
+  rest.post<string>('/products', (req, res, ctx) => {
+    console.log(req.body);
+    const { name, price, sale, type, introduction } = JSON.parse(req.body);
     let product = {
       productIdx:
         products.length === 0

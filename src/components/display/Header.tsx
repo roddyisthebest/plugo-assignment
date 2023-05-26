@@ -9,6 +9,8 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   gap: 0 100px;
+  z-index: 10;
+  background-color: #f0f0f0;
 `;
 
 const Title = styled.div`
