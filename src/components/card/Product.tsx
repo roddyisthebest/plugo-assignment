@@ -1,10 +1,18 @@
 import styled from 'styled-components';
-import ProductType from '../../types/ProductType';
 import { memo } from 'react';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const Container = styled.button`
+const Wrapper = styled.div`
   height: 300px;
   width: 200px;
+  position: relative;
+`;
+
+const Container = styled.button`
+  width: 100%;
+  height: 100%;
+  position: absolute;
   flex-direction: column;
   display: flex;
   gap: 30px 0;
@@ -12,6 +20,8 @@ const Container = styled.button`
   border: none;
   text-align: start;
   cursor: pointer;
+  text-decoration: none;
+  z-index: 4;
 `;
 
 const ImageSection = styled.div<{ url: string }>`
@@ -41,6 +51,17 @@ const InfoSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3.5px 0;
+  position: relative;
+`;
+
+const EditButton = styled.button`
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 0px;
+  top: 230px;
+  z-index: 5;
+  border: none;
 `;
 
 const Text = styled.span`
@@ -70,20 +91,24 @@ const Sale = styled.span`
 `;
 
 function Product() {
+  const navigate = useNavigate();
   return (
-    <Container>
-      <ImageSection url={`https://picsum.photos/200?random=${Math.random()}`}>
-        <Type>Ada Stock</Type>
-      </ImageSection>
-      <InfoSection>
-        <Name>Raya Scarf</Name>
-        <Price>Won 199,000</Price>
-        <SaledPrice>Won 199,000</SaledPrice>
-        <SaleColumn>
-          <Sale>-10%</Sale>
-        </SaleColumn>
-      </InfoSection>
-    </Container>
+    <Wrapper>
+      <EditButton></EditButton>
+      <Container onClick={() => navigate('/product/312')}>
+        <ImageSection url={`https://picsum.photos/200?random=${Math.random()}`}>
+          <Type>Ada Stock</Type>
+        </ImageSection>
+        <InfoSection>
+          <Name>Raya Scarf</Name>
+          <Price>Won 199,000</Price>
+          <SaledPrice>Won 199,000</SaledPrice>
+          <SaleColumn>
+            <Sale>-10%</Sale>
+          </SaleColumn>
+        </InfoSection>
+      </Container>
+    </Wrapper>
   );
 }
 
