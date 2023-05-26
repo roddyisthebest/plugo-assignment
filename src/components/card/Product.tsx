@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import ProductType from '../../types/ProductType';
 
 const Wrapper = styled.div`
   height: 300px;
@@ -73,9 +74,9 @@ const Name = styled(Text)`
   color: rgba(87, 85, 85, 1);
 `;
 
-const Price = styled(Text)`
+const Price = styled(Text)<{ onSale: boolean }>`
   color: #797878;
-  text-decoration: line-through;
+  text-decoration: ${(props) => (props.onSale ? 'line-through' : 'none')};
 `;
 
 const SaledPrice = styled(Text)`
@@ -90,22 +91,33 @@ const Sale = styled.span`
   font-size: 10px;
 `;
 
-function Product() {
+function Product({ data }: { data: ProductType }) {
   const navigate = useNavigate();
+
+  const check = {
+    onSale: () => data.sale !== 0,
+  };
+
   return (
     <Wrapper>
       <EditButton></EditButton>
-      <Container onClick={() => navigate('/product/312')}>
+      <Container onClick={() => navigate(`/product/${data.productIdx}`)}>
         <ImageSection url={`https://picsum.photos/200?random=${Math.random()}`}>
-          <Type>Ada Stock</Type>
+          <Type>{data.type}</Type>
         </ImageSection>
         <InfoSection>
-          <Name>Raya Scarf</Name>
-          <Price>Won 199,000</Price>
-          <SaledPrice>Won 199,000</SaledPrice>
-          <SaleColumn>
-            <Sale>-10%</Sale>
-          </SaleColumn>
+          <Name>{data.name}</Name>
+          <Price onSale={check.onSale()}>Won {data.price}</Price>
+          {check.onSale() && (
+            <>
+              <SaledPrice>
+                Won {data.price - data.price * 0.01 * data.sale}
+              </SaledPrice>
+              <SaleColumn>
+                <Sale>-{data.sale}%</Sale>
+              </SaleColumn>
+            </>
+          )}
         </InfoSection>
       </Container>
     </Wrapper>

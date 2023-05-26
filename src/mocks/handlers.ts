@@ -15,12 +15,13 @@ if (productsAtLS === null) {
       productIdx: i,
       name: `default product ${i}`,
       price: 25000,
-      sale: 0,
+      sale: 9 - i,
       type: 'default',
       introduction: 'it is a default clothes',
     };
     products.push(product);
   }
+
   setLocalStorage('products', products);
 } else {
   products = productsAtLS;

@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import Header from '../components/display/Header';
 import Product from '../components/card/Product';
 import ProductsWrapper from '../components/display/ProductsWrapper';
+import { useSelector } from 'react-redux';
+import State from '../types/State';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -30,6 +32,8 @@ const Contents = styled.div`
 `;
 
 export default function Admin() {
+  const products = useSelector((state: State) => state.products);
+
   return (
     <Container>
       <Header title="ADMIN">
@@ -38,15 +42,9 @@ export default function Admin() {
       </Header>
       <Contents>
         <ProductsWrapper>
-          <Product></Product>
-          <Product></Product>
-          <Product></Product>
-          <Product></Product>
-          <Product></Product>
-          <Product></Product>
-          <Product></Product>
-          <Product></Product>
-          <Product></Product>
+          {products.map((product) => (
+            <Product data={product} key={product.productIdx}></Product>
+          ))}
         </ProductsWrapper>
       </Contents>
     </Container>
