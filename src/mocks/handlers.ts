@@ -98,4 +98,38 @@ export const handlers = [
       return res(ctx.status(200), ctx.json(products));
     }
   ),
+
+  rest.get('/productsInCart', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(productsInCart));
+  }),
+
+  rest.post<{ product: ProductInCartType }>(
+    '/productsInCart',
+    (req, res, ctx) => {
+      const { product } = req.body;
+      productsInCart.push(product);
+      return res(ctx.status(200));
+    }
+  ),
+  rest.patch<{ index: number; product: ProductInCartType }>(
+    '/productsInCart',
+    (req, res, ctx) => {
+      const { index, product } = req.body;
+      productsInCart.splice(index, 1, product);
+      setLocalStorage('productsInCart', productsInCart);
+      return res(ctx.status(200));
+    }
+  ),
+  rest.delete<{}, { productIdx: string }>(
+    '/productsInCart/:productIdx',
+    (req, res, ctx) => {
+      const { productIdx } = req.params;
+      productsInCart = productsInCart.filter(
+        (product) => product.productIdx !== parseInt(productIdx, 10)
+      );
+      setLocalStorage('productsInCart', productsInCart);
+
+      return res(ctx.status(200));
+    }
+  ),
 ];

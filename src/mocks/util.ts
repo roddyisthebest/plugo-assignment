@@ -1,3 +1,4 @@
+import ProductInCartType from '../types/ProductInCartType';
 import ProductType from '../types/ProductType';
 
 const getLocalStorage = (key: string) => {
@@ -7,7 +8,10 @@ const getLocalStorage = (key: string) => {
   return JSON.parse(localStorage.getItem(key) as string);
 };
 
-const setLocalStorage = (key: string, value: ProductType[]) => {
+const setLocalStorage = (
+  key: string,
+  value: ProductType[] | ProductInCartType
+) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
