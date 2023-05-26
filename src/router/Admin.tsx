@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Header from '../components/display/Header';
+import Product from '../components/card/Product';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -30,6 +31,7 @@ export default function Admin() {
         <Button>CREATE PRODUCT</Button>
         <Button>USER</Button>
       </Header>
+      <Product></Product>
     </Container>
   );
 }
