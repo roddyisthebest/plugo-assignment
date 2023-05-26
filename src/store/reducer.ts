@@ -15,9 +15,17 @@ const { actions, reducer } = createSlice({
     addProduct(state, { payload }: PayloadAction<ProductType>) {
       return { ...state, products: [...state.products, payload] };
     },
+    removeProduct(state, { payload }: PayloadAction<number>) {
+      return {
+        ...state,
+        products: state.products.filter(
+          (product) => product.productIdx !== payload
+        ),
+      };
+    },
   },
 });
 
-export const { setProducts, addProduct } = actions;
+export const { setProducts, addProduct, removeProduct } = actions;
 
 export default reducer;

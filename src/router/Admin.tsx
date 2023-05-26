@@ -53,9 +53,17 @@ export default function Admin() {
       </Header>
       <Contents>
         <ProductsWrapper>
-          {products.map((product) => (
-            <Product data={product} key={product.productIdx}></Product>
-          ))}
+          {products.length > 0 ? (
+            products.map((product) => (
+              <Product
+                data={product}
+                key={product.productIdx}
+                editable={true}
+              ></Product>
+            ))
+          ) : (
+            <span>등록된 상품이 없습니다.</span>
+          )}
         </ProductsWrapper>
       </Contents>
       {visibility && (

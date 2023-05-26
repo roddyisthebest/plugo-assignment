@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import ProductType from '../../types/ProductType';
+import { BiDotsVertical } from 'react-icons/bi';
+import EditingProduct from '../modal/EditingProduct';
 
 const Wrapper = styled.div`
   height: 300px;
@@ -63,6 +65,7 @@ const EditButton = styled.button`
   top: 230px;
   z-index: 5;
   border: none;
+  cursor: pointer;
 `;
 
 const Text = styled.span`
@@ -91,18 +94,42 @@ const Sale = styled.span`
   font-size: 10px;
 `;
 
-function Product({ data }: { data: ProductType }) {
+function Product({ data, editable }: { data: ProductType; editable: boolean }) {
   const navigate = useNavigate();
 
+  const [visibility, setVisibility] = useState<boolean>(false);
   const check = {
     onSale: () => data.sale !== 0,
   };
 
+  const onClick = () => {
+    if (!editable) {
+      return navigate(`/product/${data.productIdx}`);
+    }
+    setVisibility(true);
+  };
+
+  useEffect(() => {
+    if (visibility) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [visibility]);
+
   return (
     <Wrapper>
-      <EditButton></EditButton>
-      <Container onClick={() => navigate(`/product/${data.productIdx}`)}>
-        <ImageSection url={`https://picsum.photos/200?random=${Math.random()}`}>
+      <EditButton>
+        <BiDotsVertical></BiDotsVertical>
+      </EditButton>
+      <Container onClick={onClick}>
+        <ImageSection
+          url={`https://picsum.photos/200?random=${data.productIdx}`}
+        >
           <Type>{data.type}</Type>
         </ImageSection>
         <InfoSection>
@@ -120,6 +147,12 @@ function Product({ data }: { data: ProductType }) {
           )}
         </InfoSection>
       </Container>
+      {visibility && (
+        <EditingProduct
+          setVisibility={setVisibility}
+          product={data}
+        ></EditingProduct>
+      )}
     </Wrapper>
   );
 }

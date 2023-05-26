@@ -82,7 +82,7 @@ export const handlers = [
   }),
 
   rest.delete<{}, { productIdx: string }>(
-    '/prodcuts/:productIdx',
+    '/products/:productIdx',
     (req, res, ctx) => {
       const { productIdx } = req.params;
       let productsAtLS: ProductType[] = getLocalStorage('products');
@@ -91,7 +91,7 @@ export const handlers = [
       );
       setLocalStorage('products', productsAtLS);
       products = productsAtLS;
-      return res(ctx.status(200), ctx.json(products));
+      return res(ctx.status(200));
     }
   ),
 

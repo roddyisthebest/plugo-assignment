@@ -7,6 +7,7 @@ const Modal = styled.div<{ isItTransparent: boolean }>`
   background-color: ${(props) =>
     props.isItTransparent ? 'transparent' : '#0000008c'};
   top: 0;
+  left: 0;
   z-index: 10;
   display: flex;
   align-items: center;
