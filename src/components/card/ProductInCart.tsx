@@ -9,6 +9,8 @@ import {
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { Name, Price, Type } from '../../util/styles';
 import ProductInCartType from '../../types/ProductInCartType';
+import { useDispatch } from 'react-redux';
+import { editProductsInCart } from '../../store/reducer';
 
 const Container = styled.div`
   padding: 15px;
@@ -104,10 +106,35 @@ const EditAmountSection = styled.div`
 `;
 
 function ProductInCart({ data }: { data: ProductInCartType }) {
+  const dispatch = useDispatch();
+  function handleCheck() {
+    dispatch(
+      editProductsInCart({
+        productInCartIdx: data.productInCartIdx,
+        key: 'check',
+        value: !data.check,
+      })
+    );
+  }
+
+  function handleAmount(isItAdd: boolean) {
+    if (!isItAdd && data.amount - 1 < 1) {
+      return;
+    }
+
+    dispatch(
+      editProductsInCart({
+        productInCartIdx: data.productInCartIdx,
+        key: 'amount',
+        value: isItAdd ? data.amount + 1 : data.amount - 1,
+      })
+    );
+  }
+
   return (
     <Container>
       <CheckSection>
-        <Button>
+        <Button onClick={handleCheck}>
           {data.check ? (
             <CheckedIcon></CheckedIcon>
           ) : (
@@ -135,11 +162,11 @@ function ProductInCart({ data }: { data: ProductInCartType }) {
             <DeleteIcon></DeleteIcon>
           </Button>
           <EditAmountSection>
-            <Button>
+            <Button onClick={() => handleAmount(false)}>
               <MinusIcon></MinusIcon>
             </Button>
             {data.amount}
-            <Button>
+            <Button onClick={() => handleAmount(true)}>
               <PlusIcon></PlusIcon>
             </Button>
           </EditAmountSection>

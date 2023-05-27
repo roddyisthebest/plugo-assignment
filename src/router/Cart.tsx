@@ -5,6 +5,7 @@ import { NavigateButton } from '../util/styles';
 import Header from '../components/display/Header';
 import { useSelector } from 'react-redux';
 import State from '../types/State';
+import { useEffect, useState } from 'react';
 const Container = styled.div`
   min-height: 100vh;
 `;
@@ -35,7 +36,7 @@ const StatusSection = styled.div`
 
 const Column = styled.div`
   display: flex;
-  gap: 0 15px;
+  gap: 0 7.5px;
   align-items: center;
 `;
 
@@ -61,6 +62,9 @@ const BuyButton = styled.button`
 export default function Cart() {
   const navigate = useNavigate();
   const productsInCart = useSelector((state: State) => state.productsInCart);
+
+  const totalPrice = useSelector((state: State) => state.totalPrice);
+
   return (
     <Container>
       <Header title="CART">
@@ -78,8 +82,8 @@ export default function Cart() {
       </Contents>
       <StatusSection>
         <Column>
-          <StatusKeyText>TOTAL:</StatusKeyText>
-          <StatusValText>5000 won</StatusValText>
+          <StatusKeyText>TOTAL: {totalPrice}</StatusKeyText>
+          <StatusValText>won</StatusValText>
         </Column>
         <BuyButton>PROCEED TO CHECKOUT</BuyButton>
       </StatusSection>

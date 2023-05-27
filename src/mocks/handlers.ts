@@ -110,6 +110,7 @@ export const handlers = [
           ? productsInCart[productsInCart.length - 1].productInCartIdx + 1
           : 0,
       check: true,
+      price: product.price - product.price * 0.01 * product.sale,
     };
     productsInCart.push(productInCart);
     setLocalStorage('productsInCart', productsInCart);

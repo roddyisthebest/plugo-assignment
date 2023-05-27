@@ -7,6 +7,7 @@ const { actions, reducer } = createSlice({
   initialState: {
     products: [] as ProductType[],
     productsInCart: [] as ProductInCartType[],
+    totalPrice: 0,
   } as State,
   reducers: {
     setProducts(state, { payload }: PayloadAction<ProductType[]>) {
@@ -37,7 +38,45 @@ const { actions, reducer } = createSlice({
       return { ...state, productsInCart: [...state.productsInCart, payload] };
     },
     setProductsInCart(state, { payload }: PayloadAction<ProductInCartType[]>) {
-      return { ...state, productsInCart: payload };
+      let totalPrice = 0;
+      payload.map((productInCart) => (totalPrice += productInCart.price));
+
+      return { ...state, productsInCart: payload, totalPrice };
+    },
+    editProductsInCart(
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        productInCartIdx: number;
+        key: string;
+        value: number | boolean;
+      }>
+    ) {
+      const productsInCart = [...state.productsInCart];
+
+      const index = productsInCart.findIndex(
+        (productsInCart) =>
+          productsInCart.productInCartIdx === payload.productInCartIdx
+      );
+
+      productsInCart.splice(index, 1, {
+        ...productsInCart[index],
+        price: productsInCart[index].price,
+        [payload.key]: payload.value,
+      });
+
+      let totalPrice = 0;
+      let checkedProductsInCart = productsInCart.filter(
+        (productInCart) => productInCart.check
+      );
+
+      for (let i = 0; i < checkedProductsInCart.length; i++) {
+        totalPrice +=
+          checkedProductsInCart[i].price * checkedProductsInCart[i].amount;
+      }
+
+      return { ...state, productsInCart, totalPrice };
     },
   },
 });
@@ -49,6 +88,7 @@ export const {
   editProducts,
   addProductInCart,
   setProductsInCart,
+  editProductsInCart,
 } = actions;
 
 export default reducer;
