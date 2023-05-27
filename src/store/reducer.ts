@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import ProductType from '../types/ProductType';
 import ProductInCartType from '../types/ProductInCartType';
 import State from '../types/State';
+import ProductInCart from '../components/card/ProductInCart';
 const { actions, reducer } = createSlice({
   name: 'default',
   initialState: {
@@ -39,7 +40,12 @@ const { actions, reducer } = createSlice({
     },
     setProductsInCart(state, { payload }: PayloadAction<ProductInCartType[]>) {
       let totalPrice = 0;
-      payload.map((productInCart) => (totalPrice += productInCart.price));
+      payload
+        .filter((productInCart) => productInCart.check)
+        .map(
+          (productInCart) =>
+            (totalPrice += productInCart.price * productInCart.amount)
+        );
 
       return { ...state, productsInCart: payload, totalPrice };
     },

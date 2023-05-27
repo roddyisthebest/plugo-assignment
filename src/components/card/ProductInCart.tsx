@@ -107,28 +107,51 @@ const EditAmountSection = styled.div`
 
 function ProductInCart({ data }: { data: ProductInCartType }) {
   const dispatch = useDispatch();
-  function handleCheck() {
-    dispatch(
-      editProductsInCart({
-        productInCartIdx: data.productInCartIdx,
-        key: 'check',
-        value: !data.check,
-      })
-    );
+
+  async function patchProductsInCart(productInCart: ProductInCartType) {
+    const response = fetch('/productsInCart', {
+      method: 'PUT',
+      body: JSON.stringify({ productInCart }),
+    });
+    return response;
   }
 
-  function handleAmount(isItAdd: boolean) {
+  async function handleCheck() {
+    try {
+      await patchProductsInCart({ ...data, check: !data.check });
+
+      dispatch(
+        editProductsInCart({
+          productInCartIdx: data.productInCartIdx,
+          key: 'check',
+          value: !data.check,
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function handleAmount(isItAdd: boolean) {
     if (!isItAdd && data.amount - 1 < 1) {
       return;
     }
 
-    dispatch(
-      editProductsInCart({
-        productInCartIdx: data.productInCartIdx,
-        key: 'amount',
-        value: isItAdd ? data.amount + 1 : data.amount - 1,
-      })
-    );
+    try {
+      await patchProductsInCart({
+        ...data,
+        amount: isItAdd ? data.amount + 1 : data.amount - 1,
+      });
+      dispatch(
+        editProductsInCart({
+          productInCartIdx: data.productInCartIdx,
+          key: 'amount',
+          value: isItAdd ? data.amount + 1 : data.amount - 1,
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (

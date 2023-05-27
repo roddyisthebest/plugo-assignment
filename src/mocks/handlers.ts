@@ -117,15 +117,18 @@ export const handlers = [
 
     return res(ctx.status(200), ctx.json(productInCart));
   }),
-  rest.patch<{ index: number; product: ProductInCartType }>(
-    '/productsInCart',
-    (req, res, ctx) => {
-      const { index, product } = req.body;
-      productsInCart.splice(index, 1, product);
-      setLocalStorage('productsInCart', productsInCart);
-      return res(ctx.status(200));
-    }
-  ),
+  rest.put<string>('/productsInCart', (req, res, ctx) => {
+    const payload = JSON.parse(req.body);
+
+    const index = productsInCart.findIndex(
+      (productInCart) =>
+        productInCart.productInCartIdx ===
+        payload.productInCart.productInCartIdx
+    );
+    productsInCart.splice(index, 1, payload.productInCart);
+    setLocalStorage('productsInCart', productsInCart);
+    return res(ctx.status(200));
+  }),
   rest.delete<{}, { productIdx: string }>(
     '/productsInCart/:productIdx',
     (req, res, ctx) => {
