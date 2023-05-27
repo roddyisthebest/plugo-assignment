@@ -23,6 +23,9 @@ export default function Home() {
     <Container>
       <Header title="USER">
         <NavigateButton onClick={() => navigate('/cart')}>CART</NavigateButton>
+        <NavigateButton onClick={() => navigate('/admin')}>
+          ADMIN
+        </NavigateButton>
       </Header>
       <Contents>
         <ProductsWrapper>
