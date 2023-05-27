@@ -106,6 +106,7 @@ function Product({ data, editable }: { data: ProductType; editable: boolean }) {
     if (!editable) {
       return navigate(`/product/${data.productIdx}`);
     }
+
     setVisibility(true);
   };
 
@@ -123,9 +124,12 @@ function Product({ data, editable }: { data: ProductType; editable: boolean }) {
 
   return (
     <Wrapper>
-      <EditButton>
-        <BiDotsVertical></BiDotsVertical>
-      </EditButton>
+      {editable && (
+        <EditButton>
+          <BiDotsVertical></BiDotsVertical>
+        </EditButton>
+      )}
+
       <Container onClick={onClick}>
         <ImageSection
           url={`https://picsum.photos/200?random=${data.productIdx}`}

@@ -51,6 +51,24 @@ const Button = styled.button<{ color: string; background: string }>`
   cursor: pointer;
 `;
 
+const NavigateButton = styled.button`
+  padding: 0 20px;
+  border-radius: 8px;
+  height: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  transition: all 300ms ease;
+
+  &:hover {
+    background-color: #e1e1e1;
+  }
+`;
+
 const Textarea = styled.textarea`
   padding: 20px;
   color: rgba(0, 0, 0, 0.8);
@@ -60,4 +78,13 @@ const Textarea = styled.textarea`
   resize: none;
 `;
 
-export { Modal, ModalTitle, InputWrapper, Input, Textarea, Label, Button };
+export {
+  Modal,
+  ModalTitle,
+  InputWrapper,
+  Input,
+  Textarea,
+  Label,
+  Button,
+  NavigateButton,
+};
