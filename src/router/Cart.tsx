@@ -1,3 +1,8 @@
+import ProductInCart from '../components/card/ProductInCart';
 export default function Cart() {
-  return <div></div>;
+  return (
+    <div style={{ display: 'flex' }}>
+      <ProductInCart></ProductInCart>
+    </div>
+  );
 }
