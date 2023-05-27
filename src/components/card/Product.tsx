@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import { memo, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import ProductType from '../../types/ProductType';
-import { BiDotsVertical } from 'react-icons/bi';
 import EditingProduct from '../modal/EditingProduct';
 import { Name, Price, Sale, SaledPrice, Type } from '../../util/styles';
 
@@ -51,17 +49,6 @@ const InfoSection = styled.div`
   position: relative;
 `;
 
-const EditButton = styled.button`
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  right: 0px;
-  top: 230px;
-  z-index: 5;
-  border: none;
-  cursor: pointer;
-`;
-
 function Product({ data, editable }: { data: ProductType; editable: boolean }) {
   const navigate = useNavigate();
 
@@ -92,12 +79,6 @@ function Product({ data, editable }: { data: ProductType; editable: boolean }) {
 
   return (
     <Wrapper>
-      {editable && (
-        <EditButton>
-          <BiDotsVertical></BiDotsVertical>
-        </EditButton>
-      )}
-
       <Container onClick={onClick}>
         <ImageSection
           url={`https://picsum.photos/1500?random=${data.productIdx}`}
