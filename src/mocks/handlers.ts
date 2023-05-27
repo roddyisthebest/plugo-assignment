@@ -48,16 +48,17 @@ export const handlers = [
     }
   ),
 
-  rest.patch<{ index: number; product: ProductType }>(
-    '/products',
-    (req, res, ctx) => {
-      const { index, product } = req.body;
+  rest.patch<string>('/products', (req, res, ctx) => {
+    const payload = JSON.parse(req.body);
 
-      products.splice(index, 1, product);
+    const index = products.findIndex(
+      (product) => product.productIdx === payload.product.productIdx
+    );
+    products.splice(index, 1, payload.product);
+    setLocalStorage('products', products);
 
-      return res(ctx.status(200));
-    }
-  ),
+    return res(ctx.status(200));
+  }),
 
   rest.post<string>('/products', (req, res, ctx) => {
     console.log(req.body);

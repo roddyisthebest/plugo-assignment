@@ -23,9 +23,19 @@ const { actions, reducer } = createSlice({
         ),
       };
     },
+    editProducts(state, { payload }: PayloadAction<ProductType>) {
+      const products = [...state.products];
+      const index = products.findIndex(
+        (product) => product.productIdx === payload.productIdx
+      );
+
+      products.splice(index, 1, payload);
+
+      return { ...state, products };
+    },
   },
 });
 
-export const { setProducts, addProduct, removeProduct } = actions;
+export const { setProducts, addProduct, removeProduct, editProducts } = actions;
 
 export default reducer;

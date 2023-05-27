@@ -9,7 +9,7 @@ import {
 } from '../../util/styles';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addProduct, removeProduct } from '../../store/reducer';
+import { addProduct, editProducts, removeProduct } from '../../store/reducer';
 import ProductType from '../../types/ProductType';
 
 const Container = styled.div`
@@ -25,6 +25,11 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
+const ButtonsRow = styled.div`
+  display: flex;
+  gap: 12px 0;
+  flex-direction: column;
+`;
 export default function EditingProduct({
   setVisibility,
   product,
@@ -67,6 +72,26 @@ export default function EditingProduct({
     }
   }
 
+  async function patchProduct() {
+    const response = fetch('/products', {
+      method: 'PATCH',
+      body: JSON.stringify({
+        product: { productIdx: product.productIdx, ...data },
+      }),
+    });
+    return response;
+  }
+
+  async function handleEdit() {
+    try {
+      await patchProduct();
+      dispatch(editProducts({ productIdx: product.productIdx, ...data }));
+      alert('제품이 성공적으로 수정되었습니다.');
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   async function deleteProduct() {
     const response = fetch(`/products/${product.productIdx}`, {
       method: 'DELETE',
@@ -81,7 +106,6 @@ export default function EditingProduct({
         await deleteProduct();
         dispatch(removeProduct(product.productIdx));
         alert('제품이 성공적으로 생성되었습니다.');
-        // setVisibility((prev) => false);
       }
     } catch (e) {
       console.log(e);
@@ -93,7 +117,9 @@ export default function EditingProduct({
       !(
         data.name.length > 0 &&
         data.type.length > 0 &&
-        data.introduction.length > 0
+        data.introduction.length > 0 &&
+        data.price.toString().length > 0 &&
+        data.sale.toString().length > 0
       )
     );
   }, [data]);
@@ -142,19 +168,20 @@ export default function EditingProduct({
             onChange={(e) => onChange('introduction', e.target.value)}
           ></Textarea>
         </InputWrapper>
-
-        {/* <Button
-          color="#198CED"
-          background="#EBF6FD"
-          onClick={handleSubmit}
-          disabled={disabled}
-          style={{ opacity: disabled ? 0.3 : 1 }}
-        >
-          EDIT
-        </Button> */}
-        <Button color="#FF0000" background="#FEE7E7" onClick={handleDelete}>
-          DELETE
-        </Button>
+        <ButtonsRow>
+          <Button
+            color="#198CED"
+            background="#EBF6FD"
+            disabled={disabled}
+            onClick={handleEdit}
+            style={{ opacity: disabled ? 0.3 : 1 }}
+          >
+            EDIT
+          </Button>
+          <Button color="#FF0000" background="#FEE7E7" onClick={handleDelete}>
+            DELETE
+          </Button>
+        </ButtonsRow>
       </Container>
     </Modal>
   );
