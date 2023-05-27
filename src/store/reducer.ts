@@ -2,7 +2,6 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import ProductType from '../types/ProductType';
 import ProductInCartType from '../types/ProductInCartType';
 import State from '../types/State';
-import ProductInCart from '../components/card/ProductInCart';
 const { actions, reducer } = createSlice({
   name: 'default',
   initialState: {
@@ -84,6 +83,29 @@ const { actions, reducer } = createSlice({
 
       return { ...state, productsInCart, totalPrice };
     },
+    removeProductInCart(state, { payload }: PayloadAction<number>) {
+      let totalPrice = 0;
+      let productsInCart = [
+        ...state.productsInCart.filter(
+          (productInCart) => productInCart.productInCartIdx !== payload
+        ),
+      ];
+
+      let checkedProductsInCart = productsInCart.filter(
+        (productInCart) => productInCart.check
+      );
+
+      for (let i = 0; i < checkedProductsInCart.length; i++) {
+        totalPrice +=
+          checkedProductsInCart[i].price * checkedProductsInCart[i].amount;
+      }
+
+      return {
+        ...state,
+        productsInCart,
+        totalPrice,
+      };
+    },
   },
 });
 
@@ -95,6 +117,7 @@ export const {
   addProductInCart,
   setProductsInCart,
   editProductsInCart,
+  removeProductInCart,
 } = actions;
 
 export default reducer;

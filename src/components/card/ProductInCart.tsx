@@ -10,7 +10,7 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import { Name, Price, Type } from '../../util/styles';
 import ProductInCartType from '../../types/ProductInCartType';
 import { useDispatch } from 'react-redux';
-import { editProductsInCart } from '../../store/reducer';
+import { editProductsInCart, removeProductInCart } from '../../store/reducer';
 
 const Container = styled.div`
   padding: 15px;
@@ -108,6 +108,13 @@ const EditAmountSection = styled.div`
 function ProductInCart({ data }: { data: ProductInCartType }) {
   const dispatch = useDispatch();
 
+  async function deleteProductsInCart() {
+    const response = fetch(`/productsInCart/${data.productInCartIdx}`, {
+      method: 'DELETE',
+    });
+    return response;
+  }
+
   async function patchProductsInCart(productInCart: ProductInCartType) {
     const response = fetch('/productsInCart', {
       method: 'PUT',
@@ -154,6 +161,15 @@ function ProductInCart({ data }: { data: ProductInCartType }) {
     }
   }
 
+  async function handleDelete() {
+    try {
+      await deleteProductsInCart();
+      dispatch(removeProductInCart(data.productInCartIdx));
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return (
     <Container>
       <CheckSection>
@@ -181,7 +197,7 @@ function ProductInCart({ data }: { data: ProductInCartType }) {
           </InfoSection>
         </Column>
         <EditSection>
-          <Button>
+          <Button onClick={handleDelete}>
             <DeleteIcon></DeleteIcon>
           </Button>
           <EditAmountSection>

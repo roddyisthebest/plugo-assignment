@@ -129,12 +129,12 @@ export const handlers = [
     setLocalStorage('productsInCart', productsInCart);
     return res(ctx.status(200));
   }),
-  rest.delete<{}, { productIdx: string }>(
-    '/productsInCart/:productIdx',
+  rest.delete<{}, { productInCartIdx: string }>(
+    '/productsInCart/:productInCartIdx',
     (req, res, ctx) => {
-      const { productIdx } = req.params;
+      const { productInCartIdx } = req.params;
       productsInCart = productsInCart.filter(
-        (product) => product.productIdx !== parseInt(productIdx, 10)
+        (product) => product.productInCartIdx !== parseInt(productInCartIdx, 10)
       );
       setLocalStorage('productsInCart', productsInCart);
 

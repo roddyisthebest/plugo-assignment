@@ -72,12 +72,16 @@ export default function Cart() {
       </Header>
       <Contents>
         <ProductsWrapper>
-          {productsInCart.map((productInCart) => (
-            <ProductInCart
-              key={productInCart.productInCartIdx}
-              data={productInCart}
-            ></ProductInCart>
-          ))}
+          {productsInCart.length > 0 ? (
+            productsInCart.map((productInCart) => (
+              <ProductInCart
+                key={productInCart.productInCartIdx}
+                data={productInCart}
+              ></ProductInCart>
+            ))
+          ) : (
+            <span>카트에 담긴 상품이 없습니다.</span>
+          )}
         </ProductsWrapper>
       </Contents>
       <StatusSection>
