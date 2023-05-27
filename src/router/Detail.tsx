@@ -15,6 +15,8 @@ import { useEffect, useState } from 'react';
 import ProductType from '../types/ProductType';
 import { Type } from '../util/styles';
 import { BsCart4 } from 'react-icons/bs';
+import { useDispatch } from 'react-redux';
+import { addProductInCart } from '../store/reducer';
 const Container = styled.div`
   min-height: 100vh;
   display: flex;
@@ -75,6 +77,7 @@ const Introduction = styled.div`
 
 export default function Detail() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
 
   const [data, setData] = useState<ProductType | null>(null);
@@ -88,7 +91,8 @@ export default function Detail() {
       method: 'POST',
       body: JSON.stringify({ product: { ...data, amount: 1 } }),
     });
-    return response;
+
+    return response.then((res) => res.json());
   }
 
   async function getProduct() {
@@ -108,7 +112,8 @@ export default function Detail() {
 
   async function handleCart() {
     try {
-      await postProductInCart();
+      const productInCart = await postProductInCart();
+      dispatch(addProductInCart(productInCart));
       alert('성공적으로 카트에 담겼습니다.');
     } catch (e) {
       console.log(e);

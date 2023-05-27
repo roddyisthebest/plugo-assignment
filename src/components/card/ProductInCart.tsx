@@ -8,13 +8,14 @@ import {
 } from 'react-icons/ai';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { Name, Price, Type } from '../../util/styles';
+import ProductInCartType from '../../types/ProductInCartType';
 
 const Container = styled.div`
   padding: 15px;
   border-radius: 8px;
   border: 1px solid #ebebeb;
   background-color: white;
-  min-width: 500px;
+  min-width: 400px;
   display: flex;
   gap: 0 15px;
 `;
@@ -102,26 +103,31 @@ const EditAmountSection = styled.div`
   font-size: 15px;
 `;
 
-function ProductInCart() {
+function ProductInCart({ data }: { data: ProductInCartType }) {
   return (
     <Container>
       <CheckSection>
         <Button>
-          <CheckedIcon></CheckedIcon>
-          {/* <UncheckedIcon></UncheckedIcon> */}
+          {data.check ? (
+            <CheckedIcon></CheckedIcon>
+          ) : (
+            <UncheckedIcon></UncheckedIcon>
+          )}
         </Button>
       </CheckSection>
       <ContentSection>
         <Column>
           <ImageSection>
-            <Image url="https://picsum.photos/1500"></Image>
+            <Image
+              url={`https://picsum.photos/1500?random=${data.productIdx}`}
+            ></Image>
           </ImageSection>
           <InfoSection>
             <div style={{ display: 'flex' }}>
-              <Type>type</Type>
+              <Type>{data.type}</Type>
             </div>
-            <Name>NAME</Name>
-            <Price onSale={false}>Won 10000</Price>
+            <Name>{data.name}</Name>
+            <Price onSale={false}>Won {data.price}</Price>
           </InfoSection>
         </Column>
         <EditSection>
@@ -132,7 +138,7 @@ function ProductInCart() {
             <Button>
               <MinusIcon></MinusIcon>
             </Button>
-            5
+            {data.amount}
             <Button>
               <PlusIcon></PlusIcon>
             </Button>

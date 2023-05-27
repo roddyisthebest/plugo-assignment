@@ -103,10 +103,18 @@ export const handlers = [
 
   rest.post<string>('/productsInCart', (req, res, ctx) => {
     const { product } = JSON.parse(req.body);
-    productsInCart.push(product);
+    let productInCart = {
+      ...product,
+      productInCartIdx:
+        productsInCart.length !== 0
+          ? productsInCart[productsInCart.length - 1].productInCartIdx + 1
+          : 0,
+      check: true,
+    };
+    productsInCart.push(productInCart);
     setLocalStorage('productsInCart', productsInCart);
 
-    return res(ctx.status(200));
+    return res(ctx.status(200), ctx.json(productInCart));
   }),
   rest.patch<{ index: number; product: ProductInCartType }>(
     '/productsInCart',

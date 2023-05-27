@@ -33,9 +33,22 @@ const { actions, reducer } = createSlice({
 
       return { ...state, products };
     },
+    addProductInCart(state, { payload }: PayloadAction<ProductInCartType>) {
+      return { ...state, productsInCart: [...state.productsInCart, payload] };
+    },
+    setProductsInCart(state, { payload }: PayloadAction<ProductInCartType[]>) {
+      return { ...state, productsInCart: payload };
+    },
   },
 });
 
-export const { setProducts, addProduct, removeProduct, editProducts } = actions;
+export const {
+  setProducts,
+  addProduct,
+  removeProduct,
+  editProducts,
+  addProductInCart,
+  setProductsInCart,
+} = actions;
 
 export default reducer;
