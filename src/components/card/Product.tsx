@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import ProductType from '../../types/ProductType';
 import { BiDotsVertical } from 'react-icons/bi';
 import EditingProduct from '../modal/EditingProduct';
+import { Name, Price, Sale, SaledPrice, Type } from '../../util/styles';
 
 const Wrapper = styled.div`
   height: 300px;
@@ -40,13 +41,6 @@ const ImageSection = styled.div<{ url: string }>`
   box-sizing: border-box;
 `;
 
-const Type = styled.div`
-  padding: 2px;
-  background-color: rgba(48, 46, 46, 1);
-  color: white;
-  font-size: 10px;
-`;
-
 const InfoSection = styled.div`
   flex: 1;
   display: flex;
@@ -66,32 +60,6 @@ const EditButton = styled.button`
   z-index: 5;
   border: none;
   cursor: pointer;
-`;
-
-const Text = styled.span`
-  font-weight: 700;
-  font-size: 12.5px;
-`;
-
-const Name = styled(Text)`
-  color: rgba(87, 85, 85, 1);
-`;
-
-const Price = styled(Text)<{ onSale: boolean }>`
-  color: #797878;
-  text-decoration: ${(props) => (props.onSale ? 'line-through' : 'none')};
-`;
-
-const SaledPrice = styled(Text)`
-  color: rgba(87, 85, 85, 1);
-`;
-
-const SaleColumn = styled.div``;
-const Sale = styled.span`
-  padding: 2px;
-  background-color: rgba(48, 46, 46, 1);
-  color: white;
-  font-size: 10px;
 `;
 
 function Product({ data, editable }: { data: ProductType; editable: boolean }) {
@@ -132,7 +100,7 @@ function Product({ data, editable }: { data: ProductType; editable: boolean }) {
 
       <Container onClick={onClick}>
         <ImageSection
-          url={`https://picsum.photos/200?random=${data.productIdx}`}
+          url={`https://picsum.photos/1500?random=${data.productIdx}`}
         >
           <Type>{data.type}</Type>
         </ImageSection>
@@ -144,9 +112,9 @@ function Product({ data, editable }: { data: ProductType; editable: boolean }) {
               <SaledPrice>
                 Won {data.price - data.price * 0.01 * data.sale}
               </SaledPrice>
-              <SaleColumn>
+              <div>
                 <Sale>-{data.sale}%</Sale>
-              </SaleColumn>
+              </div>
             </>
           )}
         </InfoSection>

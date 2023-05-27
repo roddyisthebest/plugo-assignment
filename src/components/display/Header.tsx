@@ -34,7 +34,7 @@ export default function Header({
 }) {
   return (
     <Container>
-      <Title>{title}</Title>
+      {title.length !== 0 && <Title>{title}</Title>}
       <Routes>{children}</Routes>
     </Container>
   );

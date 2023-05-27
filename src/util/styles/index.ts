@@ -78,6 +78,39 @@ const Textarea = styled.textarea`
   resize: none;
 `;
 
+const Type = styled.div`
+  padding: 2px;
+  background-color: rgba(48, 46, 46, 1);
+  color: white;
+  font-size: 10px;
+`;
+
+const Text = styled.span`
+  font-weight: 700;
+  font-size: 12.5px;
+`;
+
+const Name = styled(Text)`
+  color: rgba(87, 85, 85, 1);
+`;
+
+const Price = styled(Text)<{ onSale: boolean }>`
+  color: #797878;
+  text-decoration: ${(props) => (props.onSale ? 'line-through' : 'none')};
+`;
+
+const SaledPrice = styled(Text)`
+  color: rgba(87, 85, 85, 1);
+`;
+
+const SaleColumn = styled.div``;
+const Sale = styled.span`
+  padding: 2px;
+  background-color: rgba(48, 46, 46, 1);
+  color: white;
+  font-size: 10px;
+`;
+
 export {
   Modal,
   ModalTitle,
@@ -87,4 +120,10 @@ export {
   Label,
   Button,
   NavigateButton,
+  Type,
+  Name,
+  Price,
+  SaledPrice,
+  SaleColumn,
+  Sale,
 };

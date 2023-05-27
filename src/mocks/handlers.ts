@@ -37,10 +37,11 @@ export const handlers = [
   }),
 
   rest.get<{}, { productIdx: string }>(
-    '/products/:productId',
+    '/products/:productIdx',
     (req, res, ctx) => {
       const { productIdx } = req.params;
 
+      console.log(productIdx);
       let product = products.find(
         (product) => product.productIdx === parseInt(productIdx, 10)
       );
