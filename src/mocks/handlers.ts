@@ -101,14 +101,13 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(productsInCart));
   }),
 
-  rest.post<{ product: ProductInCartType }>(
-    '/productsInCart',
-    (req, res, ctx) => {
-      const { product } = req.body;
-      productsInCart.push(product);
-      return res(ctx.status(200));
-    }
-  ),
+  rest.post<string>('/productsInCart', (req, res, ctx) => {
+    const { product } = JSON.parse(req.body);
+    productsInCart.push(product);
+    setLocalStorage('productsInCart', productsInCart);
+
+    return res(ctx.status(200));
+  }),
   rest.patch<{ index: number; product: ProductInCartType }>(
     '/productsInCart',
     (req, res, ctx) => {

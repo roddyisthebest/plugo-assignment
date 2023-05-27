@@ -83,6 +83,14 @@ export default function Detail() {
     onSale: () => data?.sale !== 0,
   };
 
+  async function postProductInCart() {
+    const response = fetch('/productsInCart', {
+      method: 'POST',
+      body: JSON.stringify({ product: { ...data, amount: 1 } }),
+    });
+    return response;
+  }
+
   async function getProduct() {
     const response = fetch(`/products/${pathname.split('/')[2]}`);
     return response.then((res) => res.json());
@@ -93,6 +101,15 @@ export default function Detail() {
       const product = await getProduct();
       console.log(product);
       setData(product);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function handleCart() {
+    try {
+      await postProductInCart();
+      alert('성공적으로 카트에 담겼습니다.');
     } catch (e) {
       console.log(e);
     }
@@ -132,7 +149,11 @@ export default function Detail() {
                   </SaleColumn>
                 </>
               )}
-              <ModifiedButton color="white" background="#4B4025">
+              <ModifiedButton
+                color="white"
+                background="#4B4025"
+                onClick={handleCart}
+              >
                 <BsCart4></BsCart4>
                 ADD CART
               </ModifiedButton>
